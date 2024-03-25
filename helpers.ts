@@ -15,6 +15,22 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 
 
+export async function fetchSampleData() {
+    // Example: Query your database to fetch data from a table
+    const { data, error } = await supabase
+      .from('profiles') // Replace with your table name
+      .select().eq('id', '6aed1b4c-6f07-4cc0-824e-c6767cacf553');
+  
+    if (error) {
+      console.error('Error fetching data:', error);
+      return;
+    }
+  
+    // console.log('Data:', data);
+    return data;
+}
+
+
 export const saveTransaction = async (requestBody:any) => {
     //wip get fee from the deposit
     const to = requestBody[0].nativeTransfers[0].toUserAccount
