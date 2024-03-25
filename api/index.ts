@@ -23,6 +23,16 @@ app.get("/", (request: Request, response: Response) => {
     response.status(200).send("Server is running");
 });
 
+app.post('/webhook', (request: Request, response: Response) => {
+    const requestBody = request.body;   
+    //print the json to the console
+    console.log("data received by the webhook: ", requestBody);
+
+    //send a response that we received and processed the request
+    response.status(200).send('Webhook received the request lolllll');
+});
+
+
 app.listen(3000, () => console.log("Server ready on port 3000."));
 
 module.exports = app;
