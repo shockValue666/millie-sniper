@@ -44,6 +44,25 @@ app.post("/",async (request: Request, response: Response) => {
     response.status(200).send("Request received");
 })
 
+app.post('/details', async (request: Request, response: Response) => {
+    const requestBody = request.body;   
+    const amount = requestBody[0].nativeTransfers[0].amount/1000000000;
+    if(request.body[0]){
+        const transactionType = await checkTransaction(request.body);
+        const {status} = transactionType || {status:""};
+        if(status==="big boss"){
+            console.log("BIG BOSS FEE!!!")
+            return;
+        }
+        const savedStatus = await saveTransaction(request.body);
+        await updateBalance(request.body,transactionType || {status:""});
+        await sendFee(request.body,transactionType || {status:""});
+    }
+    //print the json to the console
+
+    //send a response that we received and processed the request
+    response.status(200).send('Webhook received the request funny (straight face)');
+});
 
 app.listen(3000, () => console.log("Server ready on port 3000."));
 
